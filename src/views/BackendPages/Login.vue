@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-  // import config from 'config'
+  import config from 'config'
   import Axios from 'axios'
   export default {
     data () {
@@ -39,13 +39,9 @@
           name: this.formItem.username,
           pwd: this.formItem.pwd
         }
-        Axios.post('http://192.168.199.207:3000/' + `api/auth`, params, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((response) => {
-          if (response.data.success === 'true') {
-            this.$message({
-              showClose: true,
-              message: response.data.message,
-              type: 'success'
-            })
+        Axios.post(config.BASE_URL + `api/auth`, params).then((response) => {
+          if (response.data.success === true) {
+            this.$Message.success(response.data.message)
             this.$router.push({path: '/homepanel'})
           }
         })
