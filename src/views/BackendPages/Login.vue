@@ -8,10 +8,10 @@
               <Input v-model="formItem.username" size="large" placeholder="你叫嘛？"></Input>
             </FormItem>
             <FormItem class="login-input">
-              <Input v-model="formItem.pwd" size="large" placeholder="水中月是天上月"></Input>
+              <Input v-model="formItem.pwd" size="large" placeholder="海中月是天上月"></Input>
             </FormItem>
             <FormItem>
-                <Button type="ghost" shape="circle" size="large">走咯</Button>
+                <Button type="ghost" shape="circle" size="large" @click="submit()">走咯</Button>
             </FormItem>
         </Form>
       </Card>
@@ -19,7 +19,8 @@
   </div>
 </template>
 <script>
-  // import Axios form 'axios'
+  // import config from 'config'
+  import Axios from 'axios'
   export default {
     data () {
       return {
@@ -27,6 +28,30 @@
           username: '',
           pwd: ''
         }
+      }
+    },
+    created () {
+
+    },
+    methods: {
+      LoginAuth () {
+        var params = {
+          name: this.formItem.username,
+          pwd: this.formItem.pwd
+        }
+        Axios.post('http://192.168.199.207:3000/' + `api/auth`, params, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then((response) => {
+          if (response.data.success === 'true') {
+            this.$message({
+              showClose: true,
+              message: response.data.message,
+              type: 'success'
+            })
+            this.$router.push({path: '/homepanel'})
+          }
+        })
+      },
+      submit () {
+        this.LoginAuth()
       }
     }
   }
