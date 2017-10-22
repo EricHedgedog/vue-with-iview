@@ -3,15 +3,15 @@
     <div class="login-wrapper">
       <Card class="login-box">
         <Form :model="formItem">
-            <h3 class="login-title">你要干嘛？</h3>
-            <FormItem class="login-input">
-              <Input v-model="formItem.username" size="large" placeholder="你叫嘛？"></Input>
+            <h3 :class="{'login-title' : showName}" @click="showNameInput">海中月是天上月 眼前人是心上人</h3>
+            <FormItem class="login-input" v-show="showName">
+              <Input v-model="formItem.username" size="large" @on-enter="showPwdInput" placeholder="你叫嘛？"></Input>
             </FormItem>
-            <FormItem class="login-input">
-              <Input v-model="formItem.pwd" size="large" placeholder="海中月是天上月"></Input>
+            <FormItem class="login-input"  v-show="showPwd">
+              <Input v-model="formItem.pwd" type="password" size="large"  @on-enter="showSubmit" placeholder="海中月是天上月"></Input>
             </FormItem>
-            <FormItem>
-                <Button type="ghost" shape="circle" size="large" @click="submit()">走咯</Button>
+            <FormItem v-show="showBtn">
+                <Button type="ghost" shape="circle" size="large" @click="submit()">咻咻咻</Button>
             </FormItem>
         </Form>
       </Card>
@@ -24,6 +24,9 @@
   export default {
     data () {
       return {
+        showName: false,
+        showPwd: false,
+        showBtn: false,
         formItem: {
           username: '',
           pwd: ''
@@ -42,9 +45,22 @@
         Axios.post(config.BASE_URL + `api/auth`, params).then((response) => {
           if (response.data.success === true) {
             this.$Message.success(response.data.message)
+            localStorage.setItem('currentUser_token', response.data.token)
+            localStorage.setItem('isAdmin', response.data.isAdmin)
             this.$router.push({path: '/homepanel'})
+          } else {
+            this.$Message.error(response.data.message)
           }
         })
+      },
+      showNameInput: function () {
+        this.showName = true
+      },
+      showPwdInput: function () {
+        this.showPwd = true
+      },
+      showSubmit: function () {
+        this.showBtn = true
       },
       submit () {
         this.LoginAuth()

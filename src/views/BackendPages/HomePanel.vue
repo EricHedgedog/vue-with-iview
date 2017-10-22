@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-  import SideBar from '@/views/BackendPages/Layouts/Sidebar'
+  import SideBar from '@/views/BackendPages/Layouts/SideBar'
   export default {
     components: {SideBar}
   }
