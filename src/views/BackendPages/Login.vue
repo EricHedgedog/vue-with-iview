@@ -3,12 +3,12 @@
     <div class="login-wrapper">
       <Card class="login-box">
         <Form :model="formItem">
-            <h3 :class="{'login-title' : showName}" @click="showNameInput">海中月是天上月 眼前人是心上人</h3>
+            <h3 :class="{'login-title' : showName}" @click="showNameInput">{{loginTitle}}</h3>
             <FormItem class="login-input" v-show="showName">
-              <Input v-model="formItem.username" size="large" @on-enter="showPwdInput" placeholder="你叫嘛？"></Input>
+              <Input v-model="formItem.username" size="large" placeholder="你叫嘛？"></Input>
             </FormItem>
             <FormItem class="login-input"  v-show="showPwd">
-              <Input v-model="formItem.pwd" type="password" size="large"  @on-enter="showSubmit" placeholder="海中月是天上月"></Input>
+              <Input v-model="formItem.pwd" type="password" size="large"  @on-enter="submit()" placeholder="怕死啦"></Input>
             </FormItem>
             <FormItem v-show="showBtn">
                 <Button type="ghost" shape="circle" size="large" @click="submit()">咻咻咻</Button>
@@ -24,6 +24,7 @@
   export default {
     data () {
       return {
+        loginTitle: '海中月是天上月 眼前人是心上人',
         showName: false,
         showPwd: false,
         showBtn: false,
@@ -55,12 +56,9 @@
       },
       showNameInput: function () {
         this.showName = true
-      },
-      showPwdInput: function () {
         this.showPwd = true
-      },
-      showSubmit: function () {
         this.showBtn = true
+        this.loginTitle = '此路为汝开'
       },
       submit () {
         this.LoginAuth()

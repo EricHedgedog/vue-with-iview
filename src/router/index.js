@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/views/BackendPages/Login'
-import HomePanel from '@/views/BackendPages/HomePanel'
+// 异步加载
+const HomePanel = (resolve) => require(['@/views/BackendPages/HomePanel'], resolve)
 
 Vue.use(Router)
 
@@ -16,11 +17,6 @@ export const constantRouterMap = [
     path: '/admin',
     name: 'Login',
     component: Login
-  },
-  {
-    path: '/homepanel',
-    name: 'HomePanel',
-    component: HomePanel
   }
 ]
 
@@ -28,20 +24,28 @@ var router = new Router({
   routes: constantRouterMap
 })
 
-// export const adminRouterMap = [
-//   {
-//     path: '/homepanel',
-//     name: 'HomePanel',
-//     component: HomePanel
-//   }
-// ]
+var routerLoading = false
+
+export const adminRouterMap = [
+  {
+    path: '/homepanel',
+    name: 'HomePanel',
+    component: HomePanel
+  }
+]
 
 router.beforeEach((to, from, next) => {
-  if (localStorage.getItem('currentUser_token')) {
-    if (to.path === '/homepanel') {
-      // router.addRoutes(adminRouterMap)
-      console.log(router)
-      next()
+  if (to.path !== '/admin') {
+    if (localStorage.getItem('currentUser_token') && localStorage.getItem('isAdmin') === '1') {
+      if (!routerLoading) {
+        routerLoading = true
+        router.addRoutes(adminRouterMap)
+        next({path: to.path})
+      } else {
+        next()
+      }
+    } else {
+      next('/admin')
     }
   } else {
     next()
