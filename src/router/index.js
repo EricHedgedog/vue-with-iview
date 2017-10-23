@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Login from '@/views/BackendPages/Login'
+import Login from '@/views/Login'
 // 异步加载
-const HomePanel = (resolve) => require(['@/views/BackendPages/HomePanel'], resolve)
+const HomePanel = (resolve) => require(['@/views/HomePanel'], resolve)
 
 Vue.use(Router)
 

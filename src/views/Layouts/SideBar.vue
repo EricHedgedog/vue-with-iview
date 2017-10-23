@@ -31,6 +31,8 @@
 .side-menu{
   position: absolute;
   top:0;
+  z-index: 1;
+  padding-top:65px;
   height: 100%;
   text-align: left;
 }
