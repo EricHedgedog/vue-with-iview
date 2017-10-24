@@ -1,6 +1,6 @@
 # vue-with-iview
 
-> A Vue.js project
+> A Blog Admin System based on [Vue](https://vuejs.org/) && [Iview](https://www.iviewui.com)
 
 ## Build Setup
 
