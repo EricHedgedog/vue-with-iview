@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/views/Login'
 // 异步加载
 const HomePanel = (resolve) => require(['@/views/HomePanel'], resolve)
+const Ariticles = (resolve) => require(['@/views/Ariticles'], resolve)
+const ChangePwd = (resolve) => require(['@/views/ChangePwd'], resolve)
 
 Vue.use(Router)
 
@@ -30,7 +32,19 @@ export const adminRouterMap = [
   {
     path: '/homepanel',
     name: 'HomePanel',
-    component: HomePanel
+    component: HomePanel,
+    children: [
+      {
+        path: '/ariticles',
+        name: 'Ariticles',
+        component: Ariticles
+      },
+      {
+        path: '/changepwd',
+        name: 'changepwd',
+        component: ChangePwd
+      }
+    ]
   }
 ]
 

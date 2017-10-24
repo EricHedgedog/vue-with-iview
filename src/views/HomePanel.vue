@@ -2,7 +2,7 @@
   <div>
     <TopBar></TopBar>
     <SideBar></SideBar>
-    <router-view></router-view>
+    <router-view class="right-area"></router-view>
   </div>
 </template>
 <script>
