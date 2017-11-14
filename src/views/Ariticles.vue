@@ -1,10 +1,15 @@
 <template>
   <div>
+    <div class="add-articles">
+      <Button type="primary" shape="circle" @click="addArticle">新增文章</Button>
+    </div>
     <Table border ref="selection" :columns="columns4" :data="data1"></Table>
     <Page class="pagination" :total="100"></Page>
   </div>
 </template>
 <script>
+    // import config from 'config'
+    // import Axios from 'axios'
     export default {
       data () {
         return {
@@ -71,6 +76,22 @@
         }
       },
       methods: {
+        addArticle: function () {
+          this.$router.push('/addarticle')
+          // var params = {
+          //   title
+          // }
+          // Axios.post(config.BASE_URL + `api/addArticle`, params).then((response) => {
+          //   if (response.data.success === true) {
+          //     this.$Message.success(response.data.message)
+          //     localStorage.setItem('currentUser_token', response.data.token)
+          //     localStorage.setItem('isAdmin', response.data.isAdmin)
+          //     this.$router.push({path: '/homepanel'})
+          //   } else {
+          //     this.$Message.error(response.data.message)
+          //   }
+          // })
+        },
         handleSelectAll (status) {
           this.$refs.selection.selectAll(status)
         }
@@ -80,5 +101,9 @@
 <style lang="less">
 .pagination{
   margin-top: 30px;
+}
+.add-articles{
+  margin-bottom: 20px;
+  text-align: right;
 }
 </style>

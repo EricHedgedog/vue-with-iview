@@ -5,6 +5,7 @@ import Login from '@/views/Login'
 // 异步加载
 const HomePanel = (resolve) => require(['@/views/HomePanel'], resolve)
 const Ariticles = (resolve) => require(['@/views/Ariticles'], resolve)
+const AddArticle = (resolve) => require(['@/views/AddArticle'], resolve)
 const ChangePwd = (resolve) => require(['@/views/ChangePwd'], resolve)
 
 Vue.use(Router)
@@ -38,6 +39,11 @@ export const adminRouterMap = [
         path: '/ariticles',
         name: 'Ariticles',
         component: Ariticles
+      },
+      {
+        path: '/addarticle',
+        name: 'AddArticle',
+        component: AddArticle
       },
       {
         path: '/changepwd',
