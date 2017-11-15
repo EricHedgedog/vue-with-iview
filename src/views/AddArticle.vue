@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="editor">
-          <mavon-editor style="height: 100%"></mavon-editor>
+          <mavon-editor class="mavon-editor"></mavon-editor>
       </div>
   </div>
 </template>
@@ -10,6 +10,7 @@
     import Axios from 'axios'
     // import VueMarkdown from 'vue-markdown'
     import { mavonEditor } from 'mavon-editor'
+    import 'mavon-editor/dist/css/index.css'
     export default {
       // components: {VueMarkdown},
       components: {
@@ -44,9 +45,11 @@
   text-align: right;
 }
 #editor {
-    position: absolute;
     margin: auto;
-    width: 80%;
-    height: 100%;
+    width: 100%;
+    height: 500px;
+}
+.mavon-editor{
+  max-height: 500px;
 }
 </style>
