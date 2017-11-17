@@ -48,7 +48,7 @@
             this.$Message.success(response.data.message)
             localStorage.setItem('currentUser_token', response.data.token)
             localStorage.setItem('isAdmin', response.data.isAdmin)
-            this.$router.push({path: '/homepanel'})
+            this.$router.push({path: '/articles'})
           } else {
             this.$Message.error(response.data.message)
           }
@@ -58,7 +58,7 @@
         this.showName = true
         this.showPwd = true
         this.showBtn = true
-        this.loginTitle = '此路为汝开'
+        this.loginTitle = '谁谁谁'
       },
       submit () {
         this.LoginAuth()

@@ -3,16 +3,19 @@
     <div class="add-articles">
       <Button type="primary" shape="circle" @click="addArticle">新增文章</Button>
     </div>
-    <Table border ref="selection" :columns="columns4" :data="data1"></Table>
-    <Page class="pagination" :total="100"></Page>
+    <Table border ref="selection" :columns="columns4" :data="articles"></Table>
+    <Page class="pagination" :total="total"></Page>
   </div>
 </template>
 <script>
-    // import config from 'config'
-    // import Axios from 'axios'
+    import config from 'config'
+    import Axios from 'axios'
     export default {
       data () {
         return {
+          total: 0,
+          rows: 10,
+          page: 0,
           columns4: [
             {
               title: '标题',
@@ -51,7 +54,7 @@
               }
             }
           ],
-          data1: [
+          articles: [
             {
               title: '王小明',
               date: 18,
@@ -75,22 +78,30 @@
           ]
         }
       },
+      created () {
+        this.getArticles()
+      },
       methods: {
+        getArticles: function () {
+          var params = {
+            rows: this.rows,
+            page: this.page
+          }
+          Axios.get(config.BASE_URL + `api/articles`, {params}).then((response) => {
+            if (response.data.success === true) {
+              this.articles = response.data.list
+              this.total = this.articles.length
+              for (var i = 0, len = this.articles.length; i < len; i++) {
+                var formatDate = new Date(this.articles[i].date)
+                this.articles[i].date = formatDate.getFullYear() + '-' + (formatDate.getMonth() + 1) + '-' + formatDate.getDate()
+              }
+            } else {
+              this.$Message.error(response.data.message)
+            }
+          })
+        },
         addArticle: function () {
           this.$router.push('/addarticle')
-          // var params = {
-          //   title
-          // }
-          // Axios.post(config.BASE_URL + `api/addArticle`, params).then((response) => {
-          //   if (response.data.success === true) {
-          //     this.$Message.success(response.data.message)
-          //     localStorage.setItem('currentUser_token', response.data.token)
-          //     localStorage.setItem('isAdmin', response.data.isAdmin)
-          //     this.$router.push({path: '/homepanel'})
-          //   } else {
-          //     this.$Message.error(response.data.message)
-          //   }
-          // })
         },
         handleSelectAll (status) {
           this.$refs.selection.selectAll(status)

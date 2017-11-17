@@ -5,10 +5,20 @@
     </div>
     <div class="top-logoff">
       <div class="top-username">U r the Boss</div>
-      <div class="top-logoff-btn"><Button type="text">Exit</Button></div>
+      <div class="top-logoff-btn"><Button type="text" @click="logoff">Exit</Button></div>
     </div>
   </div>
 </template>
+<script>
+  export default {
+    methods: {
+      logoff: function () {
+        localStorage.clear()
+        this.$router.push({path: '/admin'})
+      }
+    }
+  }
+</script>
 <style lang="less">
 .panel-top{
   position: relative;
