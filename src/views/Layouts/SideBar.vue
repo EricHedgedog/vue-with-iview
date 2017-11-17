@@ -1,17 +1,18 @@
 <template>
-  <Menu class="side-menu" :theme="theme" active-name="1">
+  <Menu class="side-menu" :theme="theme" :active-name="setActive" @on-select="routerTo">
         <MenuGroup title="内容管理">
-            <MenuItem name="1">
+          <MenuItem name="articles">
                 <Icon type="document-text"></Icon>
+                <!-- <router-link to="/articles">文章管理</router-link> -->
                 文章管理
             </MenuItem>
-            <MenuItem name="2">
+            <MenuItem name="commentlist">
                 <Icon type="chatbubbles"></Icon>
                 评论管理
             </MenuItem>
         </MenuGroup>
         <MenuGroup title="账号管理">
-            <MenuItem name="3">
+            <MenuItem name="changepwd">
                 <Icon type="person"></Icon>
                 修改密码
             </MenuItem>
@@ -23,6 +24,21 @@
       data () {
         return {
           theme: 'dark'
+        }
+      },
+      computed: {
+        setActive () {
+          if (this.$route.path === '/addarticle') {
+            return 'articles'
+          } else {
+            return this.$route.path.replace('/', '')
+          }
+        }
+      },
+      methods: {
+        routerTo (e) {
+          // console.log(e)
+          this.$router.push(e)
         }
       }
     }
