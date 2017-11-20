@@ -4,7 +4,7 @@
       <Button type="primary" shape="circle" @click="addArticle">新增文章</Button>
     </div>
     <Table border ref="selection" :columns="columns4" :data="articles"></Table>
-    <Page class="pagination" :total="total"></Page>
+    <Page class="pagination" :total="total" @on-change="handlePageChange"></Page>
   </div>
 </template>
 <script>
@@ -15,7 +15,8 @@
         return {
           total: 0,
           rows: 10,
-          page: 0,
+          page: 1,
+          current: 1,
           columns4: [
             {
               title: '标题',
@@ -90,10 +91,14 @@
           Axios.get(config.BASE_URL + `api/articles`, {params}).then((response) => {
             if (response.data.success === true) {
               this.articles = response.data.list
-              this.total = this.articles.length
+              this.total = response.data.total
               for (var i = 0, len = this.articles.length; i < len; i++) {
                 var formatDate = new Date(this.articles[i].date)
-                this.articles[i].date = formatDate.getFullYear() + '-' + (formatDate.getMonth() + 1) + '-' + formatDate.getDate()
+                var minutes = formatDate.getMinutes()
+                if (minutes < 10) {
+                  minutes = '0' + minutes
+                }
+                this.articles[i].date = formatDate.getFullYear() + '-' + (formatDate.getMonth() + 1) + '-' + formatDate.getDate() + '  ' + formatDate.getHours() + ':' + minutes
               }
             } else {
               this.$Message.error(response.data.message)
@@ -102,6 +107,10 @@
         },
         addArticle: function () {
           this.$router.push('/addarticle')
+        },
+        handlePageChange: function (val) {
+          this.page = val
+          this.getArticles()
         },
         handleSelectAll (status) {
           this.$refs.selection.selectAll(status)

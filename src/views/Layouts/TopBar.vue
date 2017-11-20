@@ -21,9 +21,11 @@
 </script>
 <style lang="less">
 .panel-top{
-  position: relative;
+  position: top;
   z-index: 9;
+  top:0;
   height: 65px;
+  width: 100%;
   background-color:#3d4452;
   color:#fff;
 }

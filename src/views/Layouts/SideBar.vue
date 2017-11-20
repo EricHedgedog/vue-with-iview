@@ -45,7 +45,7 @@
 </script>
 <style lang="less">
 .side-menu{
-  position: absolute;
+  position: fixed;
   top:0;
   z-index: 1;
   padding-top:65px;
