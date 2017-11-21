@@ -3,8 +3,15 @@
     <div class="add-articles">
       <Button type="primary" shape="circle" @click="addArticle">新增文章</Button>
     </div>
-    <Table border ref="selection" :columns="columns4" :data="articles"></Table>
+    <Table border ref="viewArticle" :columns="columns4" :data="articles"></Table>
     <Page class="pagination" :total="total" @on-change="handlePageChange"></Page>
+    <Modal
+        :title="article.title"
+        v-model="modalView"
+        class-name="vertical-center-modal">
+        <div class="date-center">{{article.date}}</div>
+        <p v-html="article.render"></p>
+    </Modal>
   </div>
 </template>
 <script>
@@ -13,6 +20,8 @@
     export default {
       data () {
         return {
+          article: {}, // 单篇文章详细内容
+          modalView: false, // 查看modal状态
           total: 0,
           rows: 10,
           page: 1,
@@ -37,6 +46,11 @@
                     props: {
                       type: 'text',
                       size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.viewDetail(params)
+                      }
                     }
                   }, '查看'),
                   h('Button', {
@@ -105,15 +119,27 @@
             }
           })
         },
+        viewDetail: function (params) {
+          console.log(params)
+          this.article = params.row
+          this.modalView = true
+          // 实例化modal的写法
+          // this.$Modal.confirm({
+          //   render: (h) => {
+          //     return h('h2', {
+          //       style: {
+          //         textAlign: 'center'
+          //       }
+          //     }, params.row.title)
+          //   }
+          // })
+        },
         addArticle: function () {
           this.$router.push('/addarticle')
         },
         handlePageChange: function (val) {
           this.page = val
           this.getArticles()
-        },
-        handleSelectAll (status) {
-          this.$refs.selection.selectAll(status)
         }
       }
     }

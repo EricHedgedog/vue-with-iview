@@ -50,11 +50,11 @@
         }
       },
       methods: {
-        addArticle: function (val, reder) {
+        addArticle: function (val, render) {
           var params = {
             title: this.title,
             content: val,
-            render: reder
+            render: render
           }
           Axios.post(config.BASE_URL + `api/addArticle`, params).then((response) => {
             if (response.data.success === true) {
