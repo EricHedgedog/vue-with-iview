@@ -11,6 +11,9 @@
         class-name="vertical-center-modal">
         <div class="date-center">{{article.date}}</div>
         <p v-html="article.render"></p>
+        <div slot="footer">
+            <Button type="primary" size="large"  @click="modalView = false">确定</Button>
+        </div>
     </Modal>
   </div>
 </template>
@@ -63,6 +66,11 @@
                     props: {
                       type: 'text',
                       size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.deleteArticle(params)
+                      }
                     }
                   }, '删除')
                 ])
@@ -133,6 +141,17 @@
           //     }, params.row.title)
           //   }
           // })
+        },
+        deleteArticle: function (params) {
+          Axios.post(config.BASE_URL + `api/deleteArticle`, {id: params.row._id}).then((response) => {
+            if (response.data.success === true) {
+              this.$Message.success(response.data.message)
+              this.getArticles()
+            } else {
+              this.$Message.error(response.data.message)
+              this.getArticles()
+            }
+          })
         },
         addArticle: function () {
           this.$router.push('/addarticle')
