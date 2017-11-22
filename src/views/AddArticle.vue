@@ -2,7 +2,7 @@
   <div>
     <div id="editor">
           <div><Input v-model="title" placeholder="请输入文章标题" style="width: 100%;height:48px;"></Input></div>
-          <mavon-editor :toolbars="toolbars" @save="addArticle" class="mavon-editor"></mavon-editor>
+          <mavon-editor :value="article.content" :toolbars="toolbars" @save="addArticle" class="mavon-editor"></mavon-editor>
       </div>
   </div>
 </template>
@@ -19,6 +19,7 @@
       },
       data () {
         return {
+          article: {},
           title: '',
           toolbars: {
             bold: true, // 粗体
@@ -44,19 +45,46 @@
             /* 新增 */
             undo: false, // 上一步
             redo: false, // 下一步
-            trash: false, // 清空
+            trash: true, // 清空
             save: true // 保存（触发events中的save事件）
           }
         }
       },
+      created () {
+        this.getArticle()
+      },
       methods: {
+        getArticle: function () {
+          if (!this.$route.query.id) return
+          var id = this.$route.query.id
+          var params = {
+            id: id
+          }
+          Axios.get(config.BASE_URL + `api/getArticle`, {params}).then((response) => {
+            if (response.data.success === true) {
+              this.title = response.data.list[0].title
+              this.article = response.data.list[0]
+              this.$Message.success(response.data.message)
+            } else {
+              this.$Message.error(response.data.message)
+            }
+          })
+        },
         addArticle: function (val, render) {
+          var id = this.$route.query.id
+          var url = ''
           var params = {
             title: this.title,
             content: val,
             render: render
           }
-          Axios.post(config.BASE_URL + `api/addArticle`, params).then((response) => {
+          if (id) {
+            url = `api/editArticle`
+            params.id = id
+          } else {
+            url = `api/addArticle`
+          }
+          Axios.post(config.BASE_URL + url, params).then((response) => {
             if (response.data.success === true) {
               this.$Message.success(response.data.message)
               this.$router.push('/articles')
@@ -79,9 +107,10 @@
 #editor {
     margin: auto;
     width: 100%;
-    height: 500px;
+    height: 400px;
+    text-align: left;
 }
 .mavon-editor{
-  max-height: 500px;
+  max-height: 400px;
 }
 </style>

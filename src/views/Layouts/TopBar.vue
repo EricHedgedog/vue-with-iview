@@ -21,8 +21,8 @@
 </script>
 <style lang="less">
 .panel-top{
-  position: top;
-  z-index: 9;
+  position: fixed;
+  z-index: 20;
   top:0;
   height: 65px;
   width: 100%;

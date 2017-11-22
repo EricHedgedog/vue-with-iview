@@ -60,6 +60,11 @@
                     props: {
                       type: 'text',
                       size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.editDetail(params)
+                      }
                     }
                   }, '编辑'),
                   h('Button', {
@@ -141,6 +146,9 @@
           //     }, params.row.title)
           //   }
           // })
+        },
+        editDetail: function (params) {
+          this.$router.push({path: '/addarticle', query: {id: params.row._id}})
         },
         deleteArticle: function (params) {
           Axios.post(config.BASE_URL + `api/deleteArticle`, {id: params.row._id}).then((response) => {
